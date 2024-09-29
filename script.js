@@ -76,50 +76,33 @@ function addListenerToBoxes(arrayTupla, arrayTemp) {
 
         // --- EVENTO CLICK DELLA CARD --- GESTISCI CORRETTAMENTE LA CRONOLOGIA DI EVENTI
         box.addEventListener("click", (e) => {
-            let id = mostraCard(e, box, arrayTupla);
+            let alt = mostraCard(e, box);
 
-            if (arrayTupla.length >= 2 && arrayTemp.length === 0) {
-                arrayTemp.push(id);
+            if (arrayTupla.length >= 2) {
+                console.log("sto pushando in temp");
+                arrayTemp.push(alt);
             }
 
             if (arrayTupla.length < 2) {
-                arrayTupla.push(id);
-                console.log("array tupla length inferiore a due");
+                arrayTupla.push(alt);
+                console.log("array tupla length inferiore a due. alt inserito in arrayTupla");
                 console.log(arrayTupla);
                 return;
             }
 
-            if (arrayTupla.length === 2 && arrayTupla[0] === arrayTupla[1]) {
-                // trovate uguali, non faccio niente
-                console.log("due card uguali, bravo!");
-                // resetTupla(arrayTupla);
-                return;
-            }
+            if (arrayTupla.length === 2) {
+                if (arrayTupla[0] === arrayTupla[1]) {
+                    console.log("match trovato!");
+                    resetArray(arrayTupla, arrayTemp);
+                    return;
+                }
 
-            if (arrayTupla.length === 2 && arrayTupla[0] !== arrayTupla[1]) {
-                console.log("girate due ma non ciò preso");
-
-                // resetta le due card.
-                // Trova gli elementi del DOM a partire dal loro alt.
-                let imgDomElem1 = document.querySelector(`[alt='${arrayTupla[0]}']`);
-                let imgDomElem2 = document.querySelector(`[alt='${arrayTupla[1]}']`);
-
-                console.log(imgDomElem1);
-                console.log(imgDomElem2);
-
-                console.log(arrayTupla[0]);
-                console.log(arrayTupla[1]);
-
-                if (imgDomElem1 && imgDomElem2) {
-                    imgDomElem1.classList.add("invisible");
-                    imgDomElem2.classList.add("invisible");
-
-                    let parentCard1 = imgDomElem1.closest(".box");
-                    let parentCard2 = imgDomElem2.closest(".box");
-
-                    parentCard1.classList.remove("flip");
-                    parentCard2.classList.remove("flip");
-                    resetTupla(arrayTupla, arrayTemp);
+                if (arrayTupla[0] !== arrayTupla[1]) {
+                    // console.log("match trovato!");
+                    // reset(arrayTupla);
+                    resetCards(arrayTupla);
+                    resetArray(arrayTupla, arrayTemp);
+                    return;
                 }
             }
         });
@@ -137,13 +120,46 @@ function mostraCard(e, box) {
     }
 }
 
-function resetTupla(arrayTupla, arrayTemp) {
-    arrayTupla.length = 0;
+function resetArray(arrayTupla, arrayTemp) {
+    arrayTupla.splice(0, arrayTupla.length);
     console.log(arrayTupla);
 
-    if (arrayTemp.length > 0) {
+    if (arrayTemp.length === 1) {
+        console.log("sposto alt in array temp dentro arraytupla");
         arrayTupla.push(...arrayTemp);
-        console.log(arrayTupla);
     }
-    arrayTemp.length = 0;
+    console.log(arrayTupla);
+    console.log(arrayTemp);
+}
+
+// trovare elementi dom img che poosseggono il valore di alt specificato
+// all img trovata ridare la classe invisible
+// trovare il suo box parent e rimuovere l animazione flip
+function resetCards(arrayTupla) {
+    let imgDomElem1 = document.querySelectorAll(`[alt='${arrayTupla[0]}']`);
+    let imgDomElem2 = document.querySelectorAll(`[alt='${arrayTupla[1]}']`);
+
+    imgDomElem1.forEach((img) => {
+        let card = img.closest(".box"); // Trova il genitore .box
+        if (card && card.classList.contains("flip")) {
+            // Verifica se il genitore ha la classe flip
+            card.classList.remove("flip"); // Rimuovi la classe flip
+            let childImg = card.querySelector(`[alt='${arrayTupla[0]}']`);
+            if (childImg) {
+                childImg.classList.add("invisible"); // Rendi invisibile l'immagine
+            }
+        }
+    });
+
+    imgDomElem2.forEach((img) => {
+        let card = img.closest(".box"); // Trova il genitore .box
+        if (card && card.classList.contains("flip")) {
+            // Verifica se il genitore ha la classe flip
+            card.classList.remove("flip"); // Rimuovi la classe flip
+            let childImg = card.querySelector(`[alt='${arrayTupla[1]}']`);
+            if (childImg) {
+                childImg.classList.add("invisible"); // Rendi invisibile l'immagine
+            }
+        }
+    });
 }
