@@ -22,23 +22,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // sequenza delle funzioni da chiamare.
     createModal();
-    startClock();
+    // startClock();
     const imageArray = CreateArrayImgs(arrImg);
     const arrayMischiato = shuffleArray(imageArray);
     InsertImagesIntoBoxes(arrayMischiato);
     addListenerToBoxes(arrayTupla, arrayTemp, arrDomElem);
 });
 
-function startClock() {
-    let clock = document.getElementById("clock");
-
-    let sec = 0;
-    let min = 0;
-    setInterval(() => {
-        sec++;
-        clock.innerHTML = `0${min}:0${sec}`;
-    }, 1000);
-}
+// function startClock() {
+//     let clock = document.getElementById("clock");
+//     let id1;
+//     let sec = 0;
+//     let min = 0;
+//     if (sec >= 10) {
+//         clearInterval(id1);
+//         setInterval(() => {
+//             sec++;
+//             clock.innerHTML = `0${min}:${sec}`;
+//         }, 1000);
+//         return;
+//     }
+//     id1 = setInterval(() => {
+//         sec++;
+//         clock.innerHTML = `0${min}:0${sec}`;
+//     }, 1000);
+// }
 
 // creo un array di immagini
 function CreateArrayImgs(arrImg) {
@@ -170,7 +178,7 @@ function createModal() {
     const modal = document.createElement("div");
     modal.id = "modal";
     modal.classList.add("modalStyle", "d-none");
-    modal.innerHTML = "WELL DONE!";
+    modal.innerHTML = "TOOP! VAI COSI!";
 
     document.body.appendChild(modal);
     console.log("modale creato");
