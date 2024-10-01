@@ -178,7 +178,7 @@ function createModal() {
     const modal = document.createElement("div");
     modal.id = "modal";
     modal.classList.add("modalStyle", "d-none");
-    modal.innerHTML = "TOOP! VAI COSI!";
+    modal.innerHTML = "GOOD :)";
 
     document.body.appendChild(modal);
     console.log("modale creato");

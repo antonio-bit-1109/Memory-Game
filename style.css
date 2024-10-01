@@ -34,13 +34,6 @@ html {
     cursor: pointer;
 }
 
-/* .hide {
-    z-index: 999;
-    width: 12.5%; 
-    height: 100%;
-    background-color: aquamarine;
-} */
-
 .visible {
     visibility: visible;
 }
